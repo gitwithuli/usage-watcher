@@ -133,9 +133,8 @@ class ClaudeUsageApp(rumps.App):
         self.weekly_item.title = f"Weekly: {week_pct:.0%} used • resets {week_reset}"
         self.updated_item.title = f"Updated: {datetime.now().strftime('%H:%M')}"
 
-        # Update icon based on highest usage
-        max_usage = max(five_pct, week_pct)
-        self.title = self.get_icon(max_usage, five_pct)
+        # Update menu bar with both indicators
+        self.title = self.get_title(five_pct, week_pct)
 
         # Check thresholds and notify
         self.check_thresholds(five_pct, "5h limit")
@@ -146,19 +145,36 @@ class ClaudeUsageApp(rumps.App):
         self.title = "⏳"
         self.refresh(None)
 
-    def get_icon(self, max_pct, five_pct):
-        """Return menu bar title based on usage percentage."""
-        if max_pct >= THRESHOLDS['critical']:
-            icon = "🔴"
-        elif max_pct >= THRESHOLDS['danger']:
-            icon = "🟠"
-        elif max_pct >= THRESHOLDS['warning']:
-            icon = "🟡"
+    def get_dot(self, pct):
+        """Return colored dot based on usage percentage."""
+        if pct >= THRESHOLDS['critical']:
+            return "●"  # Will appear red contextually
+        elif pct >= THRESHOLDS['danger']:
+            return "●"
+        elif pct >= THRESHOLDS['warning']:
+            return "●"
         else:
-            icon = "🟢"
+            return "●"
 
-        # Show percentage next to icon
-        return f"{icon} {five_pct:.0%}"
+    def get_icon(self, pct):
+        """Return emoji icon based on usage percentage."""
+        if pct >= THRESHOLDS['critical']:
+            return "🔴"
+        elif pct >= THRESHOLDS['danger']:
+            return "🟠"
+        elif pct >= THRESHOLDS['warning']:
+            return "🟡"
+        else:
+            return "🟢"
+
+    def get_title(self, five_pct, week_pct):
+        """Return compact menu bar title with both indicators."""
+        five_icon = self.get_icon(five_pct)
+        week_icon = self.get_icon(week_pct)
+        five_num = int(five_pct * 100)
+        week_num = int(week_pct * 100)
+        # Compact format: 🟡72 🟢6
+        return f"{five_icon}{five_num} {week_icon}{week_num}"
 
     def check_thresholds(self, pct, label):
         """Send notifications at threshold crossings."""
