@@ -1,8 +1,21 @@
-# Claude Code Usage Monitor
+# ClaudeWatch
 
 A minimal macOS menu bar app to track your Claude Code Pro/Max usage limits.
 
 ![Menu Bar](https://img.shields.io/badge/macOS-Menu%20Bar-blue) ![Python](https://img.shields.io/badge/Python-3.8+-green) ![License](https://img.shields.io/badge/License-MIT-yellow)
+
+## Quick Install
+
+```bash
+brew tap gitwithuli/tap
+brew install --cask claudewatch
+```
+
+> **Prerequisite:** You must have Claude Code CLI installed and authenticated first:
+> ```bash
+> npm install -g @anthropic-ai/claude-code
+> claude  # opens browser for OAuth
+> ```
 
 ## Features
 

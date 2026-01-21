@@ -1,0 +1,3 @@
+([('ClaudeWatch',
+   '/Users/azizkarabulutgil/Code/usage-watcher/dist/ClaudeWatch',
+   'EXECUTABLE')],)
